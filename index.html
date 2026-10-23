@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VoicePay Vision – Redesigned</title>
+<link rel="icon" href="assets/icons/logo.svg">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="toast" role="status" aria-live="polite"></div>
+<div id="loader" hidden><div class="spin"></div><p data-i18n="processing">Processing…</p></div>
+<main id="app">
+
+<!-- 1 WELCOME -->
+<section class="screen welcome" id="s-welcome" aria-label="Welcome">
+  <div class="center grow">
+    <img src="assets/icons/logo.svg" alt="" class="logo">
+    <h1>VoicePay Vision</h1><h2>— Redesigned —</h2>
+    <p class="tag" data-i18n="tagline">Voice Based Payment Assistance for Blind and Visually Impaired</p>
+    <button class="btn" data-go="register" data-i18n="getStarted">Get Started</button>
+    <button class="btn ghost" data-go="login" data-i18n="login">Login</button>
+    <div class="card langbox"><span data-i18n="selectLang">Select Language</span><div class="langs"></div></div>
+    <p class="note" data-i18n="demoNote">Frontend demo – no real payments are made.</p>
+  </div>
+</section>
+
+<!-- 2 REGISTER -->
+<section class="screen" id="s-register">
+  <div class="center">
+    <img src="assets/icons/logo.svg" alt="" class="logo sm"><h3>VoicePay Vision</h3>
+    <h2 data-i18n="createAcc">Create Your Account</h2>
+  </div>
+  <form class="card form" id="regForm" novalidate>
+    <label><span data-i18n="fullName">Full Name</span><input id="rName" autocomplete="name" data-i18n-ph="phName" placeholder="Enter your full name"></label>
+    <label><span data-i18n="email">Email Address</span><input id="rEmail" type="email" autocomplete="email" placeholder="you@example.com"></label>
+    <label><span data-i18n="phone">Phone Number</span><input id="rPhone" type="tel" autocomplete="tel" placeholder="9876543210"></label>
+    <label><span data-i18n="password">Password</span><input id="rPass" type="password" autocomplete="new-password" data-i18n-ph="phCreatePw" placeholder="Create a password (min 8)"></label>
+    <p class="err" id="regErr" role="alert"></p>
+    <button class="btn" type="submit" data-i18n="register">Register</button>
+    <p class="center"><span data-i18n="haveAcc">Already have an account?</span> <a href="#" data-go="login" data-i18n="login">Login</a></p>
+    <div class="langs"></div>
+  </form>
+  <button class="btn ghost" data-go="welcome" data-i18n="back">Back</button>
+</section>
+
+<!-- 3 LOGIN -->
+<section class="screen" id="s-login">
+  <div class="center"><img src="assets/icons/logo.svg" alt="" class="logo sm"><h3>VoicePay Vision</h3><h2 data-i18n="welcomeBack">Welcome Back</h2></div>
+  <form class="card form" id="loginForm" novalidate>
+    <label><span data-i18n="emailPhone">Email or Phone Number</span><input id="lId" autocomplete="username" data-i18n-ph="phId" placeholder="Enter your email or phone number"></label>
+    <label><span data-i18n="password">Password</span>
+      <span class="pw"><input id="lPass" type="password" autocomplete="current-password" data-i18n-ph="phPw" placeholder="Enter your password"><button type="button" id="showPw" aria-label="Show or hide password" aria-pressed="false">👁</button></span></label>
+    <p class="err" id="loginErr" role="alert"></p>
+    <button class="btn" type="submit" data-i18n="login">Login</button>
+    <p class="center"><a href="#" id="forgot" data-i18n="forgot">Forgot password?</a></p>
+    <p class="center"><span data-i18n="noAcc">Don't have an account?</span> <a href="#" data-go="register" data-i18n="register">Register</a></p>
+    <div class="langs"></div>
+  </form>
+  <button class="btn ghost" data-go="welcome" data-i18n="back">Back</button>
+</section>
+
+<!-- 4 HOME -->
+<section class="screen" id="s-home">
+  <header class="bar"><span class="spacer"></span><b>VoicePay Vision</b><button class="ibtn" data-go="profile" aria-label="Profile">👤</button></header>
+  <div class="pad grow">
+    <div class="card hello"><span class="avatar">👤</span><div><b><span data-i18n="hello">Hello</span>, <span class="uname">Kumar</span>!</b><br><small data-i18n="goodToSee">Good to see you again.</small></div></div>
+    <div class="grid">
+      <button class="tile t-green" data-go="scan"><i>▣</i><span data-i18n="scanQR">Scan QR</span></button>
+      <button class="tile t-blue" data-go="voice"><i>🎙</i><span data-i18n="voiceAsst">Voice Assistant</span></button>
+      <button class="tile t-purple" data-go="history"><i>🕒</i><span data-i18n="txHistory">Transaction History</span></button>
+      <button class="tile t-teal" data-go="profile"><i>👤</i><span data-i18n="profile">Profile</span></button>
+      <button class="tile t-grey" data-go="settings"><i>⚙</i><span data-i18n="settings">Settings</span></button>
+      <button class="tile t-pink" id="helpBtn"><i>?</i><span data-i18n="help">Help</span></button>
+    </div>
+    <div class="row"><div class="langs"></div><button class="ibtn dark" data-speak="homeSpeak" aria-label="Voice guidance">🔊</button></div>
+  </div>
+  <nav class="tabs" data-tabs="home"></nav>
+</section>
+
+<!-- 5 VOICE -->
+<section class="screen" id="s-voice">
+  <header class="bar"><button class="ibtn" data-back aria-label="Back">←</button><b data-i18n="voiceAsst">Voice Assistant</b><button class="ibtn" data-go="settings" aria-label="Settings">⚙</button></header>
+  <div class="pad grow center">
+    <button id="mic" class="mic" aria-label="Start or stop listening">🎙</button>
+    <p class="big" id="micStatus" aria-live="polite" data-i18n="tapMic">Tap the microphone and speak…</p>
+    <p class="heard" id="heard"></p>
+    <div class="card cmds"><b data-i18n="tryCmds">Try saying:</b>
+      <ul><li>“Scan QR code”</li><li>“Check transaction history”</li><li>“Open profile / settings / help”</li><li>“Switch to Tamil / English”</li></ul>
+      <small data-i18n="noPayVoice">Payments can never be approved by voice. They always need an on-screen confirmation.</small></div>
+    <div class="card manual"><b data-i18n="manual">Manual controls</b>
+      <div class="chips"><button class="btn sm" data-go="scan" data-i18n="scanQR">Scan QR</button><button class="btn sm" data-go="history" data-i18n="txHistory">Transaction History</button><button class="btn sm" data-go="home" data-i18n="home">Home</button></div></div>
+    <div class="row"><div class="langs"></div><button class="ibtn dark" id="repeat" aria-label="Read instructions aloud">🔊</button></div>
+  </div>
+</section>
+
+<!-- 6 SCAN -->
+<section class="screen" id="s-scan">
+  <header class="bar"><button class="ibtn" data-back aria-label="Back">←</button><b data-i18n="scanTitle">Scan QR Code</b><button class="ibtn" data-speak="scanHelp" aria-label="Help">?</button></header>
+  <div class="pad grow">
+    <div class="cam"><video id="video" playsinline muted></video><div class="frame"></div><p id="camMsg" class="camMsg"></p></div>
+    <p class="center" data-i18n="align">Align the QR code within the frame</p>
+    <p class="err" id="scanErr" role="alert"></p>
+    <div class="row"><button class="ibtn dark" id="torch" aria-label="Retry camera">⟳</button><button class="btn" id="scanBtn" data-i18n="scan">Scan</button></div>
+    <details class="card"><summary data-i18n="manualQR">Enter QR data manually</summary>
+      <label><span>Demo format: VPV|Vendor name|Location|Amount</span><input id="qrManual" placeholder="VPV|Ramesh Store|Tamil Nadu|50.00"></label>
+      <button class="btn sm" id="qrSubmit" data-i18n="submit">Submit</button>
+      <button class="btn ghost sm" id="qrSample" data-i18n="useSample">Use sample QR</button></details>
+    <button class="btn ghost" data-go="home" data-i18n="cancel">Cancel</button>
+  </div>
+</section>
+
+<!-- 7 VENDOR -->
+<section class="screen" id="s-vendor">
+  <header class="bar"><button class="ibtn" data-back aria-label="Back">←</button><b data-i18n="vendorInfo">Vendor Information</b><span class="spacer"></span></header>
+  <div class="pad grow center">
+    <div class="vicon">🏪</div><p data-i18n="vendorDet">Vendor Detected</p><h2 id="vName">–</h2><p id="vLoc"></p>
+    <p class="note" data-i18n="vendorNote">Read the vendor name carefully. A QR code cannot prove who the vendor is.</p>
+    <div class="card amt"><small data-i18n="payAmt">Payment Amount</small><div class="amount" id="vAmt">₹ 0.00</div></div>
+    <button class="btn" id="vConfirm" data-i18n="confirmAmt">Confirm Amount</button>
+    <button class="btn ghost" data-go="home" data-i18n="cancel">Cancel</button>
+    <div class="row"><button class="btn ghost sm" id="vRead">🔊 <span data-i18n="listen">Press to listen</span></button><div class="langs"></div></div>
+  </div>
+</section>
+
+<!-- 8 CONFIRM -->
+<section class="screen" id="s-confirm">
+  <header class="bar"><button class="ibtn" data-back aria-label="Back">←</button><b data-i18n="payConfirm">Payment Confirmation</b><span class="spacer"></span></header>
+  <div class="pad grow center">
+    <div class="vicon">🏪</div><h2 id="cName">–</h2><p id="cLoc"></p>
+    <div class="card amt"><small data-i18n="amount">Amount</small><div class="amount" id="cAmt">₹ 0.00</div></div>
+    <div class="warn" role="note">⚠ <span data-i18n="mockWarn">Simulated demo payment. No money will move. Fingerprint authentication is not available in this demo.</span></div>
+    <label class="check"><input type="checkbox" id="cCheck"><span data-i18n="iConfirm">I have checked the vendor and amount and I want to pay.</span></label>
+    <p class="note" data-i18n="confirmHelp">Tick the box, then press Pay Now. Voice commands cannot approve payments.</p>
+    <button class="btn" id="payBtn" disabled data-i18n="payNow">Pay Now (Demo)</button>
+    <button class="btn ghost" data-go="home" data-i18n="cancel">Cancel</button>
+  </div>
+</section>
+
+<!-- 9 RESULT -->
+<section class="screen" id="s-result">
+  <header class="bar"><button class="ibtn" data-go="home" aria-label="Home">←</button><b data-i18n="result">Payment Result</b><span class="spacer"></span></header>
+  <div class="pad grow center">
+    <div class="status" id="rIcon">✔</div><h2 id="rTitle"></h2><p id="rMsg"></p>
+    <div class="card detail" id="rDetail"></div>
+    <p class="note" data-i18n="simLabel">Simulated demo payment</p>
+    <div class="card" id="receipt" hidden></div>
+    <button class="btn" id="viewReceipt" data-i18n="viewReceipt">View Receipt</button>
+    <button class="btn ghost" id="audioReceipt">🔊 <span data-i18n="hearReceipt">Press to hear receipt</span></button>
+    <button class="btn ghost" data-go="home" data-i18n="returnHome">Return to Dashboard</button>
+  </div>
+</section>
+
+<!-- 10 HISTORY -->
+<section class="screen" id="s-history">
+  <header class="bar"><button class="ibtn" data-back aria-label="Back">←</button><b data-i18n="txHistory">Transaction History</b><span class="spacer"></span></header>
+  <div class="pad grow">
+    <div class="row"><input id="hSearch" type="search" data-i18n-ph="search" placeholder="Search vendor" aria-label="Search"><select id="hFilter" aria-label="Filter"><option value="all" data-i18n="all">All</option><option value="success" data-i18n="success">Success</option><option value="failed" data-i18n="failed">Failed</option></select></div>
+    <p class="note" data-i18n="sampleData">Sample data – not real transactions.</p>
+    <div id="hList"></div>
+  </div>
+  <nav class="tabs" data-tabs="history"></nav>
+</section>
+
+<!-- 11 PROFILE -->
+<section class="screen" id="s-profile">
+  <header class="bar"><button class="ibtn" data-back aria-label="Back">←</button><b data-i18n="userProfile">User Profile</b><span class="spacer"></span></header>
+  <div class="pad grow">
+    <div class="card hello"><span class="avatar big">👤</span><div><b class="uname">Kumar</b><br><span id="pMail"></span><br><span id="pPhone"></span></div></div>
+    <button class="row-btn" id="editToggle"><span data-i18n="personal">Personal Information</span><span>›</span></button>
+    <form class="card form" id="editForm" hidden novalidate>
+      <label><span data-i18n="fullName">Full Name</span><input id="eName"></label>
+      <label><span data-i18n="email">Email Address</span><input id="eEmail" type="email"></label>
+      <label><span data-i18n="phone">Phone Number</span><input id="ePhone" type="tel"></label>
+      <p class="err" id="editErr" role="alert"></p>
+      <button class="btn" type="submit" data-i18n="saveProfile">Save changes</button></form>
+    <button class="row-btn" id="chPw"><span data-i18n="changePw">Change Password</span><span>›</span></button>
+    <button class="row-btn" id="langRow"><span data-i18n="langPref">Language Preference</span><span id="langVal">English</span></button>
+    <button class="row-btn danger" id="logout"><span data-i18n="logout">Logout</span><span>⎋</span></button>
+  </div>
+  <nav class="tabs" data-tabs="profile"></nav>
+</section>
+
+<!-- 12 SETTINGS -->
+<section class="screen" id="s-settings">
+  <header class="bar"><button class="ibtn" data-back aria-label="Back">←</button><b data-i18n="settings">Settings</b><span class="spacer"></span></header>
+  <div class="pad grow">
+    <div class="card form">
+      <label><span data-i18n="language">Language</span><select id="setLang"><option value="en">English</option><option value="ta">தமிழ்</option></select></label>
+      <label><span data-i18n="voiceSpeed">Voice Speed</span><select id="setSpeed"><option value="0.7">Slow</option><option value="1">Normal</option><option value="1.3">Fast</option></select></label>
+      <label><span data-i18n="voiceVol">Voice Volume</span><input type="range" id="setVol" min="0.1" max="1" step="0.1"></label>
+      <label class="tog"><span data-i18n="voiceGuide">Voice guidance</span><input type="checkbox" id="setVoice"></label>
+      <label class="tog"><span data-i18n="notif">Notifications</span><input type="checkbox" id="setNotif"></label>
+      <b data-i18n="access">Accessibility</b>
+      <label class="tog"><span data-i18n="bigText">Larger text</span><input type="checkbox" id="setBig"></label>
+      <label class="tog"><span data-i18n="contrast">High contrast</span><input type="checkbox" id="setContrast"></label>
+      <button class="btn ghost sm" id="testVoice">🔊 <span data-i18n="testVoice">Test voice</span></button>
+    </div>
+    <details class="card"><summary data-i18n="about">About</summary><p>VoicePay Vision – Redesigned. Frontend demo v1.0. Payments are simulated; sign-in is a demonstration and is not secure authentication.</p>
+      <button class="btn ghost sm" id="resetDemo" data-i18n="reset">Reset demo data</button></details>
+    <button class="btn ghost" data-go="responsive" data-i18n="respView">Mobile Responsive Preview</button>
+  </div>
+  <nav class="tabs" data-tabs="settings"></nav>
+</section>
+
+<!-- 13 RESPONSIVE -->
+<section class="screen wide" id="s-responsive">
+  <header class="bar"><button class="ibtn" data-back aria-label="Back">←</button><b data-i18n="respView">Mobile Responsive View</b><span class="spacer"></span></header>
+  <div class="pad grow"><p class="note" data-i18n="respNote">The same app at phone width. Resize your browser to see tablet and desktop layouts.</p>
+    <div class="phones">
+      <iframe title="Welcome on phone" src="index.html?preview=1#welcome"></iframe>
+      <iframe title="Dashboard on phone" src="index.html?preview=1#home"></iframe>
+      <iframe title="Scanner on phone" src="index.html?preview=1#scan"></iframe>
+    </div></div>
+</section>
+</main>
+<script src="js/app.js"></script>
+</body>
+</html>
